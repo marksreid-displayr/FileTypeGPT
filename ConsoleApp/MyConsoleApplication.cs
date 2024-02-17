@@ -1,15 +1,20 @@
-﻿using System.Text;
-using System.Text.Json;
+﻿using Microsoft.Extensions.Logging;
 
 namespace ConsoleApp;
 
-public class MyConsoleApplication(IFileClassifier fileClassifier, JsonSerializerOptions jsonSerializerOptions)
+public class MyConsoleApplication(IFileClassifier fileClassifier, IFileCollector fileCollector, IFileMover fileMover, ILogger<MyConsoleApplication> logger)
 {
-    public async Task Run(string[] files)
+    public async Task Run()
     {
-        //var fileInformation = await fileClassifier.ClassifyFilesAsync(files, () => Console.Write("."));
-        //Console.WriteLine();
-        //await using var answerFile = File.Create(@"c:\temp\answers.json");
-        //await JsonSerializer.SerializeAsync(answerFile, fileInformation, jsonSerializerOptions);
+        var files = fileCollector.GetFiles();
+        foreach (var fileChunk in files.Chunk(10))
+        {
+            var classifiedFiles = await fileClassifier.ClassifyFilesAsync(fileChunk, () => Console.WriteLine("."));
+            if (classifiedFiles is null)
+            {
+                continue;
+            }
+            fileMover.MoveFiles(classifiedFiles);
+        }
     }
 }

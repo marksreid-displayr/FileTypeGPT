@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 
 namespace ConsoleApp;
 
-public class FileMover(IOptions<Files> fileOptions) : IFileMover
+public class FileMover(IOptions<Files> fileOptions, IFileMoveOperation fileMoveOperation) : IFileMover
 {
     public void MoveFiles(IEnumerable<BaseFile> fileInformation)
     {
@@ -25,7 +25,7 @@ public class FileMover(IOptions<Files> fileOptions) : IFileMover
 
             if (file is IFileCanBeMoved fileHasDestination && destinationBase is not null)
             {
-                fileHasDestination.Move(destinationBase);
+                fileHasDestination.Move(destinationBase, fileMoveOperation);
             }
         }
     }

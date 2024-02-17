@@ -1,18 +1,5 @@
 ﻿namespace ConsoleApp.File;
 
-public class NamedFile(FileEntry fileEntry) : BaseFile
-{
-    public FileEntry FileEntry { get; } = fileEntry;
-
-}
-
-public interface IFileMoveOperation
-{
-    void MoveContentsOfFolderAndDeleteSourceFolder(FileEntry fileEntry, string destinationPrefix, string destination);
-    void MoveOnly(FileEntry fileEntry,string destinationPrefix, string destination);
-    void RemoveEmptyDirectory(FileEntry fileEntry);
-}
-
 public class FileMoveOperation(IFileSystem fileSystem) : IFileMoveOperation
 {
     public void MoveContentsOfFolderAndDeleteSourceFolder(FileEntry fileEntry, string destinationPrefix, string destination)

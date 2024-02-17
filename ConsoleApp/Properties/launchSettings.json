@@ -4,7 +4,7 @@
       "commandName": "Project",
       "commandLineArgs": "--files \"Jason Bourne.2016.BDRip.x264.AC3-FRWL[PRiME]\" \"Dont.Worry.Darling.2022.1080p.WEBRip.DD5.1.X.264-EVO\" \"Goliath Season 1 Mp4 720p\" \"DCs.Legends.of.Tomorrow.S07E13.WEBRip.x264-ION10\" \"Star Wars The Rise Of Skywalker (2019) [720p] [WEBRip] [YTS.MX]\" \"Creed II (2018) [WEBRip] [720p] [YTS.AM]\" \"Hidden.Figures.2016.DVDSCR.700MB.ShAaNiG.mkv\" \"Last Seen Alive (2022) [1080p] [WEBRip] [5.1] [YTS.MX]\" \"Cruella.2021.HDRip.XviD.AC3-EVO\" \"The.100.S07E06.720p.HDTV.x265-MiNX[TGx]\"",
       "environmentVariables": {
-        "OpenAI__Credentials": "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"
+        "OpenAI__Credentials": "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"
       }
     },
     "Docker": {

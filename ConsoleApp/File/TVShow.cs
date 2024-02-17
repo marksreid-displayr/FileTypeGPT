@@ -5,7 +5,7 @@ public class TVShow(FileEntry fileEntry, string name, string? resolution, int se
     public int Season { get; } = season;
     public int? Episode { get; } = episode;
 
-    public override void Move(string destinationPrefix)
+    public override void Move(string destinationPrefix, IFileMoveOperation fileMover)
     {
         var destination = Path.Combine(Name, $"season {Season}");
         if (Episode is not null)
@@ -15,13 +15,13 @@ public class TVShow(FileEntry fileEntry, string name, string? resolution, int se
         switch (FileEntry)
         {
             case DirectoryEntry { FileCount : 0 }:
-                RemoveEmptyDirectory();
+                fileMover.RemoveEmptyDirectory(FileEntry);
                 break;
             case DirectoryEntry { FileCount: >= 1 }:
-                MoveContentsOfFolderAndDeleteSourceFolder(destinationPrefix, destination);
+                fileMover.MoveContentsOfFolderAndDeleteSourceFolder(FileEntry, destinationPrefix, destination);
                 break;
             default:
-                MoveOnly(destinationPrefix, destination);
+                fileMover.MoveOnly(FileEntry, destinationPrefix, destination);
                 break;
         }
     }

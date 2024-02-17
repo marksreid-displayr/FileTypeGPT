@@ -2,8 +2,8 @@
 
 public class Other(FileEntry fileEntry) : NamedFile(fileEntry), IFileCanBeMoved
 {
-    public virtual void Move(string destinationPrefix)
+    public virtual void Move(string destinationPrefix, IFileMoveOperation fileMover)
     {
-        MoveOnly(destinationPrefix, "");
+        fileMover.MoveOnly(FileEntry, destinationPrefix, "");
     }
 }

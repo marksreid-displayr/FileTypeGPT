@@ -3,20 +3,20 @@
 public class Movie(FileEntry fileEntry, string name, string? resolution, int? year) : Video(fileEntry, name, resolution)
 {
     public int? Year { get; } = year;
-    public override void Move(string destinationPrefix)
+    public override void Move(string destinationPrefix, IFileMoveOperation fileMover)
     {
         var destination = Year is null ? Name : $"{Name} - {Year}";
 
         switch (FileEntry)
         {
             case DirectoryEntry { FileCount : 0 }:
-                RemoveEmptyDirectory();
+                fileMover.RemoveEmptyDirectory(FileEntry);
                 break;
             case DirectoryEntry { FileCount: >= 1 }:
-                MoveContentsOfFolderAndDeleteSourceFolder(destinationPrefix, destination);
+                fileMover.MoveContentsOfFolderAndDeleteSourceFolder(FileEntry, destinationPrefix, destination);
                 break;
             default:
-                MoveOnly(destinationPrefix, destination);
+                fileMover.MoveOnly(FileEntry, destinationPrefix, destination);
                 break;
         }
     }

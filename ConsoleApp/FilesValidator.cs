@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 
 namespace ConsoleApp;
 
-public class FilesValidator : IValidateOptions<Files>
+public class FilesValidator(IFileSystem fileSystem) : IValidateOptions<Files>
 {
     public ValidateOptionsResult Validate(string? name, Files options)
     {
@@ -15,9 +15,9 @@ public class FilesValidator : IValidateOptions<Files>
                ValidateOptionsResult.Success;
     }
 
-    private static ValidateOptionsResult? CheckDirectory(string? directory, [CallerArgumentExpression(nameof(directory))]string? directoryName = null) 
+    private ValidateOptionsResult? CheckDirectory(string? directory, [CallerArgumentExpression(nameof(directory))]string? directoryName = null) 
     {
-        if (directory is not null && Directory.Exists(directory)) return null;
+        if (directory is not null && fileSystem.Exists(directory)) return null;
         var parameterNameWithoutLeadingOption = string.Join('.',directoryName?.Split('.').Skip(1) ?? []).Replace("?","");
         return ValidateOptionsResult.Fail($"{parameterNameWithoutLeadingOption} must refer to a directory");
 

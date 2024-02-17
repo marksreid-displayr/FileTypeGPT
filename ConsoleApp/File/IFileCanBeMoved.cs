@@ -2,5 +2,5 @@
 
 public interface IFileCanBeMoved
 {
-    void Move(string destinationPrefix);
+    void Move(string destinationPrefix, IFileMoveOperation fileMover);
 }
