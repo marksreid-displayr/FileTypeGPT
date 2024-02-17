@@ -398,5 +398,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-ConsoleApp/Properties/launchsettings.json
 # End of https://www.toptal.com/developers/gitignore/api/csharp
+ConsoleApp/Properties/launchSettings.json
