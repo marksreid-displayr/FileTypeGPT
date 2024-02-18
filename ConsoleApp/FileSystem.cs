@@ -3,7 +3,9 @@
 public class FileSystem : IFileSystem
 {
     public string[] GetFiles(string path) => Directory.GetFiles(path);
-    public string[] GetDirectories(string path) => Directory.GetDirectories(path);
+
+    public string[] GetDirectories(string path) =>
+        Directory.GetDirectories(path).Select(Path.GetFileName).Where(dir => dir is not null).Cast<string>().ToArray();
     public int GetFileCount(string path) => GetFiles(path).Length;
     public void CreateDirectory(string destinationFolder) => Directory.CreateDirectory(destinationFolder);
     public string[] GetFileSystemEntries(string source) => Directory.GetFileSystemEntries(source);

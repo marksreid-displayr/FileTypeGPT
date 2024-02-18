@@ -12,7 +12,7 @@ public class FileCollector(IOptions<Files> files, IFileSystem fileSystem) : IFil
 
         var directoryEntries = fileSystem.GetDirectories(files.Value.Source!).Where(entry =>
                 !(files.Value.Exclusions?.Any(exclusion => exclusion == entry) ?? false))
-            .Select(dir => new DirectoryEntry(files.Value.Source!, dir, fileSystem.GetFileCount(Path.Combine(files.Value.Source!,dir))));
+            .Select(dir => new DirectoryEntry(dir,files.Value.Source!, fileSystem.GetFileCount(Path.Combine(files.Value.Source!,dir))));
 
         return fileEntries.Concat(directoryEntries).ToArray();
     }

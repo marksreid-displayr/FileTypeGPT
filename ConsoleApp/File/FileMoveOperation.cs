@@ -9,7 +9,8 @@ public class FileMoveOperation(IFileSystem fileSystem) : IFileMoveOperation
         var source = Path.Join(fileEntry.Directory, fileEntry.Name);
         foreach (var file in fileSystem.GetFileSystemEntries(source))
         {
-            fileSystem.Move(Path.Join(source,file), destinationFolder);
+            var fileName = Path.GetFileName(file);
+            fileSystem.Move(file, Path.Join(destinationFolder, fileName));
         }
         fileSystem.Delete(source);
     }

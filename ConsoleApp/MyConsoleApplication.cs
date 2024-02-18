@@ -9,7 +9,7 @@ public class MyConsoleApplication(IFileClassifier fileClassifier, IFileCollector
         var files = fileCollector.GetFiles();
         foreach (var fileChunk in files.Chunk(10))
         {
-            var classifiedFiles = await fileClassifier.ClassifyFilesAsync(fileChunk, () => Console.WriteLine("."));
+            var classifiedFiles = await fileClassifier.ClassifyFilesAsync(fileChunk, () => Console.Write("."));
             if (classifiedFiles is null)
             {
                 continue;

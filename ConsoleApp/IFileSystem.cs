@@ -3,7 +3,7 @@
 public interface IFileSystem
 {
     string[] GetFiles(string path);
-    string[] GetDirectories(string path);
+    string?[] GetDirectories(string path);
     int GetFileCount(string path);
     void CreateDirectory(string destinationFolder);
     string[] GetFileSystemEntries(string source);

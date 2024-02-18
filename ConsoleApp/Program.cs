@@ -37,10 +37,11 @@ class Program
                 services.AddSingleton<IFileSystem, FileSystem>();
                 services.AddSingleton<IFileMoveOperation, FileMoveOperation>();
                 services.AddSingleton<IFileMover, FileMover>();
-                services.AddSingleton(new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                });
+                services.AddSingleton<IFileSerializer>(sp =>
+                    ActivatorUtilities.CreateInstance<FileSerializer>(sp, new JsonSerializerOptions
+                    {
+                        Converters = { new FileTypeConverter() }
+                    }));
                 services.AddSingleton<IPromptGenerator, PromptGenerator>();
 
                 services.Configure<ChatGPT>(hostContext.Configuration.GetSection(nameof(ChatGPT)));

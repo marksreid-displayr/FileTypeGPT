@@ -4,5 +4,5 @@ namespace ConsoleApp;
 
 public interface IFileSerializer
 {
-    BaseFile[]? SerializeToStrongType(string answer, IEnumerable<string> fileNames, IReadOnlyDictionary<string, FileEntry> filesByName);
+    BaseFile[]? SerializeToStrongType(string answer, IEnumerable<FileEntry> files);
 }

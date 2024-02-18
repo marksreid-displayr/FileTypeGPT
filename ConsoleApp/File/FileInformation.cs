@@ -1,12 +1,17 @@
-﻿namespace ConsoleApp.File;
+﻿using System.Text.Json.Serialization;
+
+namespace ConsoleApp.File;
 
 public class FileInformation
 {
     public string? OriginalFilename { get; set; }
     public FileType? Type { get; set; }
     public string? Name { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public int? Year { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public int? Season { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public int? Episode { get; set; }
     public string? Resolution { get; set; }
 

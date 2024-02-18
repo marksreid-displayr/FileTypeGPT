@@ -1,9 +1,9 @@
-﻿using System.Text.Json;
-using ConsoleApp.File;
+﻿using ConsoleApp.File;
+using Microsoft.Extensions.Logging;
 
 namespace ConsoleApp;
 
-public class FileClassifier(IOpenAIService openAIService, IPromptGenerator promptGenerator, IFileSerializer fileSerializer)
+public class FileClassifier(IOpenAIService openAIService, IPromptGenerator promptGenerator, IFileSerializer fileSerializer, ILogger<FileClassifier> logger)
     : IFileClassifier
 {
     public async Task<BaseFile[]?> ClassifyFilesAsync(FileEntry[] files, Action? progressCallback = null)
@@ -19,29 +19,9 @@ public class FileClassifier(IOpenAIService openAIService, IPromptGenerator promp
             Thread.Sleep(1000);
         }
         var answer = await answerTask;
+        logger.LogInformation(answer);
 
-        return fileSerializer.SerializeToStrongType(answer, fileNames, filesByName);
+        return fileSerializer.SerializeToStrongType(answer, files);
     }
 
-}
-
-public interface IFileSerializer
-{
-    BaseFile[]? SerializeToStrongType(string answer, IEnumerable<string> fileNames, IReadOnlyDictionary<string, FileEntry> filesByName);
-}
-
-public class FileSerializer : IFileSerializer
-{
-    private readonly JsonSerializerOptions _jsonSerializerOptions = new()
-    {
-        Converters = { new FileTypeConverter() }
-    };
-
-    public BaseFile[]? SerializeToStrongType(string answer, IEnumerable<string> fileNames, IReadOnlyDictionary<string, FileEntry> filesByName)
-    {
-        var fileInformation = JsonSerializer.Deserialize<FileInformation[]>(answer, _jsonSerializerOptions) ?? [];
-        var missingFiles = fileNames.Except(fileInformation.Select(fileInfo => fileInfo.OriginalFilename))
-            .Select(missing => new MissingFile(filesByName[missing!])).ToArray();
-        return fileInformation?.Select(fi => fi.AsStrongType(filesByName[fi.OriginalFilename!])).Concat(missingFiles).ToArray();
-    }
 }
